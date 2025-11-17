@@ -1,0 +1,143 @@
+:root {
+  font-family: 'SF Pro Display', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  color-scheme: light dark;
+  --bg-light: #f4f5f7;
+  --bg-dark: #0f0f10;
+  --surface-light: #ffffff;
+  --surface-dark: #1c1c1e;
+  --primary: #ff9f0a;
+  --accent: #42a5f5;
+  --text-light: #0e0e11;
+  --text-dark: #f7f7ff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+
+body[data-theme='dark'] {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.calculator {
+  width: min(360px, 100vw);
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: var(--surface-light);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2);
+  transition: background 0.2s ease;
+}
+
+body[data-theme='dark'] .calculator {
+  background: var(--surface-dark);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.calculator__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.calculator__header h1 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.platform-label {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.display {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: right;
+  min-height: 120px;
+}
+
+body[data-theme='dark'] .display {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.history {
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.6);
+  min-height: 1.2em;
+}
+
+body[data-theme='dark'] .history {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.output {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.keypad button {
+  border: none;
+  border-radius: 16px;
+  font-size: 1.25rem;
+  padding: 0.85rem 0;
+  background: rgba(0, 0, 0, 0.07);
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+
+body[data-theme='dark'] .keypad button {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.keypad button:active {
+  transform: scale(0.97);
+}
+
+.keypad button:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+body[data-theme='dark'] .keypad button:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.keypad button.operator {
+  background: rgba(255, 159, 10, 0.9);
+  color: #fff;
+}
+
+.keypad button.accent {
+  background: var(--accent);
+  color: #fff;
+}
+
+.span-2 {
+  grid-column: span 2;
+}

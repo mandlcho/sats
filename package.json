@@ -1,0 +1,46 @@
+{
+  "name": "sats-calculator",
+  "version": "0.1.0",
+  "description": "Cross-platform calculator desktop app for macOS and Windows built with Electron.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.sats.calculator",
+    "productName": "Sats Calculator",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": "dmg"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  },
+  "keywords": [
+    "electron",
+    "calculator",
+    "desktop"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^29.1.4",
+    "electron-builder": "^24.9.1"
+  }
+}
