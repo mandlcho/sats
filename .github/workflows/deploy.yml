@@ -1,0 +1,48 @@
+name: deploy-sats-to-site
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-site:
+    runs-on: ubuntu-latest
+    env:
+      SITE_REPO: mandlcho/mandlcho.github.io
+      SITE_BRANCH: main
+      SITE_SUBDIR: bitcoin
+    steps:
+      - name: checkout sats repo
+        uses: actions/checkout@v4
+
+      - name: clone site repo
+        env:
+          SITE_PAT: ${{ secrets.SITE_PAT }}
+        run: |
+          if [ -z "$SITE_PAT" ]; then
+            echo "SITE_PAT secret not configured" >&2
+            exit 1
+          fi
+          git clone --depth=1 https://x-access-token:${SITE_PAT}@github.com/${SITE_REPO}.git site
+
+      - name: sync sats web build into site
+        run: |
+          rm -rf site/${SITE_SUBDIR}
+          mkdir -p site/${SITE_SUBDIR}
+          cp -R web/. site/${SITE_SUBDIR}/
+
+      - name: commit and push site changes
+        env:
+          SITE_PAT: ${{ secrets.SITE_PAT }}
+        run: |
+          cd site
+          git config user.name "sats deploy bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git status --porcelain | grep .; then
+            git add .
+            git commit -m "chore: sync sats calculator"
+            git push origin ${SITE_BRANCH}
+          else
+            echo "no changes to deploy"
+          fi
