@@ -1,6 +1,7 @@
 const SATS_PER_BTC = 100_000_000;
 
 const platformLabel = document.getElementById('platformLabel');
+const themeToggle = document.getElementById('themeToggle');
 const cgSatsInput = document.getElementById('cgSatsInput');
 const cgBtcInput = document.getElementById('cgBtcInput');
 const cgFiatInput = document.getElementById('cgFiatInput');
@@ -10,21 +11,50 @@ const cgRateMeta = document.getElementById('cgRateMeta');
 const cgRefreshBtn = document.getElementById('cgRefreshBtn');
 
 const platformMap = {
-  darwin: 'macOS',
-  win32: 'Windows',
-  linux: 'Linux',
+  darwin: 'macos',
+  win32: 'windows',
+  linux: 'linux',
   browser: ''
 };
 
-const setTheme = () => {
+const THEME_STORAGE_KEY = 'sats-calculator-theme';
+
+const updateThemeToggleIcon = theme => {
+  if (!themeToggle) {
+    return;
+  }
+  const nextMode = theme === 'dark' ? 'light' : 'dark';
+  const isDark = theme === 'dark';
+  themeToggle.textContent = isDark ? '🌙' : '☀️';
+  themeToggle.classList.toggle('is-dark', isDark);
+  themeToggle.setAttribute('aria-label', `switch to ${nextMode} mode`);
+};
+
+const applyTheme = theme => {
+  document.body.dataset.theme = theme;
+  updateThemeToggleIcon(theme);
+};
+
+const initTheme = () => {
   const platform = window.native?.platform ?? 'browser';
-  const theme =
-    window.native?.theme ??
-    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   if (platformLabel) {
     platformLabel.textContent = platformMap[platform] ?? platform;
   }
-  document.body.dataset.theme = theme;
+  const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  const theme =
+    storedTheme === 'dark' || storedTheme === 'light'
+      ? storedTheme
+      :
+        window.native?.theme ??
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(theme);
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const nextTheme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+      applyTheme(nextTheme);
+    });
+  }
 };
 
 const initCoinGuidesConverter = () => {
@@ -144,5 +174,5 @@ const initCoinGuidesConverter = () => {
   fetchCgRate();
 };
 
-setTheme();
+initTheme();
 initCoinGuidesConverter();
