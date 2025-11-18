@@ -13,7 +13,7 @@ const platformMap = {
   darwin: 'macOS',
   win32: 'Windows',
   linux: 'Linux',
-  browser: 'Preview'
+  browser: ''
 };
 
 const setTheme = () => {

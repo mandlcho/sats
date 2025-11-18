@@ -1,4 +1,4 @@
-# Sats Desk
+# Sats Calculator
 
 Minimal cross-platform desktop wrapper (macOS + Windows) for the CoinGuides satoshi converter.
 

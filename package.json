@@ -1,7 +1,7 @@
 {
-  "name": "sats-desk",
+  "name": "sats-calculator",
   "version": "0.1.0",
-  "description": "Electron desktop app that shows Google Finance BTC price and converts USD to sats.",
+  "description": "Electron desktop app that embeds the CoinGuides sats/BTC/fiat converter.",
   "main": "electron/main.js",
   "scripts": {
     "start": "electron .",
@@ -10,8 +10,8 @@
     "web": "http-server ./web -p 4173 -c-1"
   },
   "build": {
-    "appId": "com.sats.desk",
-    "productName": "Sats Desk",
+    "appId": "com.sats.calculator",
+    "productName": "Sats Calculator",
     "files": [
       "electron/**/*",
       "web/**/*",

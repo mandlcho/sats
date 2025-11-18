@@ -9,7 +9,7 @@ const createWindow = () => {
     height: 560,
     resizable: false,
     maximizable: false,
-    title: 'Sats Desk',
+    title: 'Sats Calculator',
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#121212' : '#f3f3f3',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
