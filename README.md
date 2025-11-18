@@ -1,6 +1,15 @@
-# Sats Calculator
+# Sats Desk
 
-Lightweight desktop calculator built with [Electron](https://www.electronjs.org/) so it runs the exact same on macOS and Windows. The UI includes a simple tape-style history bar, keyboard shortcuts, and common calculator operations (%, ±, ÷, ×, −, +).
+Minimal cross-platform desktop wrapper (macOS + Windows) for the CoinGuides satoshi converter.
+
+The app ships a clean Electron shell that embeds the CoinGuides three-field widget—Sats ↔ BTC ↔ fiat—using the same imagery and CryptoCompare-powered FX rates that the original site exposes.
+
+## Features
+
+- CoinGuides 3-field converter (sats, BTC, fiat) with 14 fiat currencies.
+- Automatic BTC/fiat rate fetches from CryptoCompare with a manual refresh button.
+- Flag selector that matches the selected fiat currency.
+- Lightweight desktop shell that keeps the widget available as a dedicated app window.
 
 ## Prerequisites
 
@@ -14,7 +23,7 @@ Lightweight desktop calculator built with [Electron](https://www.electronjs.org/
 npm install
 ```
 
-This pulls down Electron and electron-builder so you can run and package the project locally.
+This pulls down Electron, electron-builder, and the dev dependencies needed to launch the static preview.
 
 ## Run the app in development
 
@@ -22,12 +31,20 @@ This pulls down Electron and electron-builder so you can run and package the pro
 npm start
 ```
 
-This launches Electron with `main.js`, which in turn loads the HTML/JS calculator UI in `renderer/`.
+This launches Electron with `electron/main.js`, which loads the CoinGuides-styled UI from `web/`. The renderer performs HTTPS `fetch` requests to CryptoCompare for BTC → fiat rates and also pulls flag images from FlagsAPI.
 
-### Helpful tweaks
+## Run the web UI
 
-- Open DevTools from the “View” menu if you want to debug the renderer.
-- Update `main.js` window dimensions or `renderer/styles.css` to change screen size/style.
+```bash
+npm run web
+```
+
+This serves the static files under `web/` via `http://localhost:4173`. You still need network access for the CryptoCompare rate requests and the flag sprites.
+
+### Notes
+
+- CryptoCompare requests are unauthenticated. If you have an API key, update `web/app.js` to add headers/query params as needed.
+- DevTools are available from the “View” menu if you want to inspect the renderer.
 
 ## Package builds
 
@@ -49,13 +66,14 @@ Artifacts are emitted in the `dist/` directory.
 ## Project structure
 
 ```
-├── main.js        # Electron main process
-├── preload.js     # Exposes platform/theme hints to the renderer
-├── renderer/
+├── electron/
+│   ├── main.js    # Electron main process (window + app shell)
+│   └── preload.js # Exposes platform/theme hints to the renderer
+├── web/
 │   ├── index.html
-│   ├── app.js     # Calculator logic + keyboard shortcuts
+│   ├── app.js     # CoinGuides-converter clone powered by CryptoCompare
 │   └── styles.css
 └── package.json   # Scripts + electron-builder config
 ```
 
-Feel free to expand features (memory buttons, scientific operators, currency helpers, etc.) by enhancing `renderer/app.js`.
+Extend `web/app.js` if you want alerts, historical charts, or extra currencies. Keeping Electron-specific code inside `electron/` lets you reuse the renderer logic elsewhere (web, mobile) with minimal changes.

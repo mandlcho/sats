@@ -1,20 +1,20 @@
 {
-  "name": "sats-calculator",
+  "name": "sats-desk",
   "version": "0.1.0",
-  "description": "Cross-platform calculator desktop app for macOS and Windows built with Electron.",
-  "main": "main.js",
+  "description": "Electron desktop app that shows Google Finance BTC price and converts USD to sats.",
+  "main": "electron/main.js",
   "scripts": {
     "start": "electron .",
     "build:mac": "electron-builder --mac",
-    "build:win": "electron-builder --win"
+    "build:win": "electron-builder --win",
+    "web": "http-server ./web -p 4173 -c-1"
   },
   "build": {
-    "appId": "com.sats.calculator",
-    "productName": "Sats Calculator",
+    "appId": "com.sats.desk",
+    "productName": "Sats Desk",
     "files": [
-      "main.js",
-      "preload.js",
-      "renderer/**/*",
+      "electron/**/*",
+      "web/**/*",
       "package.json"
     ],
     "mac": {
@@ -34,13 +34,16 @@
   },
   "keywords": [
     "electron",
-    "calculator",
+    "bitcoin",
+    "sats",
+    "converter",
     "desktop"
   ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "electron": "^29.1.4",
-    "electron-builder": "^24.9.1"
+    "electron-builder": "^24.9.1",
+    "http-server": "^14.1.1"
   }
 }

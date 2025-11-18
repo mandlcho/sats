@@ -5,11 +5,11 @@ const isDev = !app.isPackaged;
 
 const createWindow = () => {
   const window = new BrowserWindow({
-    width: 360,
-    height: 540,
+    width: 420,
+    height: 560,
     resizable: false,
     maximizable: false,
-    title: 'Sats Calculator',
+    title: 'Sats Desk',
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#121212' : '#f3f3f3',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -19,7 +19,7 @@ const createWindow = () => {
     }
   });
 
-  window.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+  window.loadFile(path.join(__dirname, '..', 'web', 'index.html'));
 };
 
 app.whenReady().then(() => {
